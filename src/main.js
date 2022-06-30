@@ -4,6 +4,7 @@ import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 import "./assets/styles/style.scss";
+import "../food.json";
 Vue.config.productionTip = false;
 
 new Vue({

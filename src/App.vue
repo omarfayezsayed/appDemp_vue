@@ -19,7 +19,7 @@
       </a>
     </header>
     <router-view />
-    <SideBar v-if="omar" :toggle="toggle" />
+    <SideBar v-if="visible" :toggle="toggle" />
   </div>
 </template>
 <script>
@@ -27,7 +27,9 @@ import SideBar from "./components/SideBar.vue";
 export default {
   data() {
     return {
-      omar: false,
+      visible: false,
+      inventory: [],
+      cart: {},
     };
   },
   name: "APPView",
@@ -36,11 +38,8 @@ export default {
   },
   methods: {
     toggle() {
-      this.omar = !this.omar;
+      this.visible = !this.visible;
     },
-  },
-  mounted() {
-    console.log("home page mounted");
   },
 };
 </script>
