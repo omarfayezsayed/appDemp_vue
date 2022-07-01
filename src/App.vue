@@ -10,25 +10,36 @@
           <span>Products</span>
         </router-link>
         <router-link to="/past-orders" class="top-bar-link">
-          <span>Past Orders</span>
+          <span>Past Orders </span>
         </router-link>
       </nav>
-      <a href="#" @click.prevent="toggle" class="top-bar-cart-link">
+      <div @click.prevent="toggle" class="top-bar-cart-link">
         <i class="icofont-cart-alt icofont-1x"></i>
-        <span>Cart (0)</span>
-      </a>
+        <span>Cart {{ calData }} </span>
+      </div>
     </header>
-    <router-view />
-    <SideBar v-if="visible" :toggle="toggle" />
+    <router-view
+      :cart="cart"
+      :inventory="inventory"
+      :addToCart="addToCart"
+      :getname="getname"
+    />
+    <SideBar
+      v-if="visible"
+      :cart="cart"
+      :toggle="toggle"
+      :inventory="inventory"
+    />
   </div>
 </template>
 <script>
 import SideBar from "./components/SideBar.vue";
+import food from "../food.json";
 export default {
   data() {
     return {
       visible: false,
-      inventory: [],
+      inventory: food,
       cart: {},
     };
   },
@@ -36,9 +47,28 @@ export default {
   components: {
     SideBar,
   },
+  computed: {
+    calData: function () {
+      return Object.values(this.cart).reduce((acc, curr) => {
+        return acc + curr;
+      }, 0);
+    },
+  },
   methods: {
     toggle() {
       this.visible = !this.visible;
+    },
+    addToCart(type) {
+      if (!this.cart[type]) this.cart[type] = 0;
+      this.cart[type] += this.inventory[this.getname(type)].quntity;
+      this.inventory[this.getname(type)].quntity = 0;
+    },
+    getname(type) {
+      for (let index = 0; index < this.inventory.length; index++) {
+        if (this.inventory[index].name === type) {
+          return index;
+        }
+      }
     },
   },
 };

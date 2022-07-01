@@ -51,27 +51,9 @@
 
 <script>
 // import { fromByteArray } from 'ipaddr.js';
-import food from "../../food.json";
+
 export default {
-  data() {
-    return {
-      inventory: food,
-      cart: {},
-    };
-  },
+  props: ["inventory", "cart", "addToCart", "getname", "cal_qu"],
   name: "HomeView",
-  methods: {
-    addToCart(type) {
-      if (!this.cart[type]) this.cart[type] = 0;
-      this.cart[type] += this.inventory[this.getname(type)].quntity;
-    },
-    getname(type) {
-      for (let index = 0; index < this.inventory.length; index++) {
-        if (this.inventory[index].name === type) {
-          return index;
-        }
-      }
-    },
-  },
 };
 </script>

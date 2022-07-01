@@ -22,22 +22,29 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr v-for="(quantity, key, i) in cart" :key="i">
               <td><i class="icofont-carrot icofont-3x"></i></td>
-              <td>Carrot</td>
-              <td>$1.00</td>
-              <td class="center">1</td>
-              <td>$1.00</td>
+              <td>{{ key }}</td>
+              <td>{{ getPrice(key) }}</td>
+              <td class="center">{{ quantity }}</td>
+              <td>{{ (quantity * getPrice(key)).toFixed(2) }}</td>
               <td class="center">
-                <button class="btn btn-light cart-remove">&times;</button>
+                <button
+                  @click="RemoveCart(key)"
+                  class="btn btn-light cart-remove"
+                >
+                  &times;
+                </button>
               </td>
             </tr>
           </tbody>
         </table>
 
-        <p class="center"><em>No items in cart</em></p>
+        <p class="center" v-if="!Object.keys(cart).length">
+          <em>No items in cart</em>
+        </p>
         <div class="spread">
-          <span><strong>Total:</strong> $1.00</span>
+          <span><strong>Total:</strong> {{ calcTotal() }}</span>
           <button class="btn btn-light">Checkout</button>
         </div>
       </div>
@@ -47,6 +54,25 @@
 <script>
 export default {
   name: "SideBar",
-  props: ["toggle"],
+  props: ["toggle", "cart", "inventory"],
+  methods: {
+    getPrice(name) {
+      for (let i = 0; i < this.inventory.length; i++) {
+        if (this.inventory[i].name == name) {
+          return this.inventory[i].price.USD.toFixed(2);
+        }
+      }
+    },
+    RemoveCart(name) {
+      delete this.cart[name];
+    },
+    calcTotal() {
+      let all = 0;
+      for (const property in this.cart) {
+        all += this.getPrice(property) * this.cart[property];
+      }
+      return all.toFixed(2);
+    },
+  },
 };
 </script>
