@@ -53,7 +53,12 @@
 // import { fromByteArray } from 'ipaddr.js';
 
 export default {
-  props: ["inventory", "cart", "addToCart", "getname", "cal_qu"],
+  props: ["addToCart", "getname"],
   name: "HomeView",
+  computed: {
+    inventory() {
+      return this.$store.state.invetory;
+    },
+  },
 };
 </script>

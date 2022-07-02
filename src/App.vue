@@ -18,29 +18,18 @@
         <span>Cart {{ calData }} </span>
       </div>
     </header>
-    <router-view
-      :cart="cart"
-      :inventory="inventory"
-      :addToCart="addToCart"
-      :getname="getname"
-    />
-    <SideBar
-      v-if="visible"
-      :cart="cart"
-      :toggle="toggle"
-      :inventory="inventory"
-    />
+    <router-view :addToCart="addToCart" :getname="getname" />
+
+    <SideBar v-if="visible" :toggle="toggle" />
   </div>
 </template>
 <script>
 import SideBar from "./components/SideBar.vue";
-import food from "../food.json";
+// import food from "../food.json";
 export default {
   data() {
     return {
-      visible: false,
-      inventory: food,
-      cart: {},
+      visible: true,
     };
   },
   name: "APPView",
@@ -52,6 +41,12 @@ export default {
       return Object.values(this.cart).reduce((acc, curr) => {
         return acc + curr;
       }, 0);
+    },
+    inventory() {
+      return this.$store.state.invetory;
+    },
+    cart() {
+      return this.$store.state.cartStore;
     },
   },
   methods: {

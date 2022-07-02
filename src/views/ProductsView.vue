@@ -43,7 +43,15 @@
 </template>
 <script>
 export default {
-  props: ["inventory", "cart", "addToCart", "getname"],
+  props: ["addToCart", "getname"],
   name: "productsView",
+  computed: {
+    inventory() {
+      return this.$store.state.invetory;
+    },
+    cart() {
+      return this.$store.state.cartStore;
+    },
+  },
 };
 </script>

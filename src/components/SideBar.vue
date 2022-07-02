@@ -54,7 +54,15 @@
 <script>
 export default {
   name: "SideBar",
-  props: ["toggle", "cart", "inventory"],
+  props: ["toggle"],
+  computed: {
+    inventory() {
+      return this.$store.state.invetory;
+    },
+    cart() {
+      return this.$store.state.cartStore;
+    },
+  },
   methods: {
     getPrice(name) {
       for (let i = 0; i < this.inventory.length; i++) {
