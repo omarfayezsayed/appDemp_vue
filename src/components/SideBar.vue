@@ -22,15 +22,15 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(quantity, key, i) in cart" :key="i">
+            <tr v-for="(product, i) in cart" :key="i">
               <td><i class="icofont-carrot icofont-3x"></i></td>
-              <td>{{ key }}</td>
-              <td>{{ getPrice(key) }}</td>
-              <td class="center">{{ quantity }}</td>
-              <td>{{ (quantity * getPrice(key)).toFixed(2) }}</td>
+              <td>{{ product.name }}</td>
+              <td>2</td>
+              <td class="center">{{ product.quntity }}</td>
+              <td>1</td>
               <td class="center">
                 <button
-                  @click="RemoveCart(key)"
+                  @click="RemoveCart(product, i)"
                   class="btn btn-light cart-remove"
                 >
                   &times;
@@ -40,11 +40,11 @@
           </tbody>
         </table>
 
-        <p class="center" v-if="!Object.keys(cart).length">
+        <p class="center" v-if="!cart.length">
           <em>No items in cart</em>
         </p>
         <div class="spread">
-          <span><strong>Total:</strong> {{ calcTotal() }}</span>
+          <span><strong>Total:</strong> 1</span>
           <button class="btn btn-light">Checkout</button>
         </div>
       </div>
@@ -64,22 +64,8 @@ export default {
     },
   },
   methods: {
-    getPrice(name) {
-      for (let i = 0; i < this.inventory.length; i++) {
-        if (this.inventory[i].name == name) {
-          return this.inventory[i].price.USD.toFixed(2);
-        }
-      }
-    },
-    RemoveCart(name) {
-      delete this.cart[name];
-    },
-    calcTotal() {
-      let all = 0;
-      for (const property in this.cart) {
-        all += this.getPrice(property) * this.cart[property];
-      }
-      return all.toFixed(2);
+    RemoveCart(product, index) {
+      this.$store.commit("deleteFromCart", { product, index });
     },
   },
 };

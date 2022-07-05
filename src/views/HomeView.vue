@@ -9,8 +9,12 @@
     <main class="wrapper">
       <h2>Recommended</h2>
       <div class="recommended">
-        <div v-for="pro in inventory.slice(0, 3)" :key="pro.id" class="card">
-          <div class="card-title">{{ pro.name }}</div>
+        <div
+          v-for="product in inventory.slice(0, 3)"
+          :key="product.id"
+          class="card"
+        >
+          <div class="card-title">{{ product.name }}</div>
           <div class="card-body">
             <i class="icofont-10x icofont-carrot"></i>
             <form>
@@ -33,13 +37,16 @@
                   <label>Quantity:</label>
                 </div>
                 <div class="cell">
-                  <input type="number" v-model.number="pro.quntity" />
+                  <input type="number" v-model.number="product.quntity" />
                 </div>
               </div>
             </form>
           </div>
           <div class="card-footer">
-            <button @click="addToCart(pro.name)" class="btn btn-light">
+            <button
+              @click="addTo(product.name, product.quntity)"
+              class="btn btn-light"
+            >
               Add to cart
             </button>
           </div>
@@ -53,11 +60,16 @@
 // import { fromByteArray } from 'ipaddr.js';
 
 export default {
-  props: ["addToCart", "getname"],
   name: "HomeView",
   computed: {
     inventory() {
       return this.$store.state.invetory;
+    },
+  },
+  methods: {
+    addTo(name, quntity) {
+      console.log(name, quntity);
+      this.$store.commit("addToCart", { name, quntity });
     },
   },
 };

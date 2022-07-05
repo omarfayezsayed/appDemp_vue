@@ -15,11 +15,10 @@
       </nav>
       <div @click.prevent="toggle" class="top-bar-cart-link">
         <i class="icofont-cart-alt icofont-1x"></i>
-        <span>Cart {{ calData }} </span>
+        <span>Cart </span>
       </div>
     </header>
-    <router-view :addToCart="addToCart" :getname="getname" />
-
+    <router-view />
     <SideBar v-if="visible" :toggle="toggle" />
   </div>
 </template>
@@ -36,34 +35,9 @@ export default {
   components: {
     SideBar,
   },
-  computed: {
-    calData: function () {
-      return Object.values(this.cart).reduce((acc, curr) => {
-        return acc + curr;
-      }, 0);
-    },
-    inventory() {
-      return this.$store.state.invetory;
-    },
-    cart() {
-      return this.$store.state.cartStore;
-    },
-  },
   methods: {
     toggle() {
       this.visible = !this.visible;
-    },
-    addToCart(type) {
-      if (!this.cart[type]) this.cart[type] = 0;
-      this.cart[type] += this.inventory[this.getname(type)].quntity;
-      this.inventory[this.getname(type)].quntity = 0;
-    },
-    getname(type) {
-      for (let index = 0; index < this.inventory.length; index++) {
-        if (this.inventory[index].name === type) {
-          return index;
-        }
-      }
     },
   },
 };

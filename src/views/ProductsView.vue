@@ -3,37 +3,40 @@
     <h1>Products</h1>
 
     <div class="card-container">
-      <div v-for="pro in inventory" :key="pro.id" class="card">
-        <div class="card-title">{{ pro.name }}</div>
+      <div v-for="product in inventory" :key="product.id" class="card">
+        <div class="card-title">{{ product.name }}</div>
         <div class="card-body">
-          <!-- <i class="icofont-10x icofont-pro.icon"+"Ad"></i> -->
+          <!-- <i class="icofont-10x icofont-product.icon"+"Ad"></i> -->
           <form>
             <div class="row">
               <div class="cell">
                 <label>Type:</label>
               </div>
               <div class="cell">
-                <em>Vegetable</em>
+                <em>{{ product.type }}</em>
               </div>
             </div>
             <div class="row">
               <div class="cell">
                 <label>Price:</label>
               </div>
-              <div class="cell">$4.82</div>
+              <div class="cell">${{ product.price.USD }}</div>
             </div>
             <div class="row">
               <div class="cell">
                 <label>Quantity:</label>
               </div>
               <div class="cell">
-                <input type="number" v-model.number="pro.quntity" />
+                <input type="number" v-model.number="product.quntity" />
               </div>
             </div>
           </form>
         </div>
         <div class="card-footer">
-          <button @click="addToCart(pro.name)" class="btn btn-light">
+          <button
+            @click="addTo(product.name, product.quntity)"
+            class="btn btn-light"
+          >
             Add to cart
           </button>
         </div>
@@ -51,6 +54,12 @@ export default {
     },
     cart() {
       return this.$store.state.cartStore;
+    },
+  },
+  methods: {
+    addTo(name, quntity) {
+      console.log(name, quntity);
+      this.$store.commit("addToCart", { name, quntity });
     },
   },
 };
